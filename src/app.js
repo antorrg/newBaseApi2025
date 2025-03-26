@@ -13,7 +13,7 @@ server.use((err, req, res, next) => {
   console.error('Error del servidor: ', err.stack)
   res.status(status).json({
     success: false,
-    message,
+    message: message,
     results: 'Algo salió mal'
   })
 })

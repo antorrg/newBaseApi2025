@@ -1,8 +1,9 @@
 /* Servidor creado el dia 26/03/2025
 Api REST de Express.js con prisma */
 import server from './src/app.js'
-const Port = process.env.PORT || 3000
+import env from './src/Configs/envConfig.js'
 
-server.listen(Port, () => {
-  console.log(`Server is listening on port: ${Port}`)
+
+server.listen(env.Port, () => {
+  console.log(`Server is listening on port:${env.Port}\nServer in ${env.Status}`)
 })

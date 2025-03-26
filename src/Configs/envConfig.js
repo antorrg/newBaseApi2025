@@ -21,14 +21,4 @@ export default {
   Port: PORT,
   DatabaseUrl: DATABASE_URL,
   Status,
-  cleanEnvFile: async () => {
-    try {
-      if (fs.existsSync('.env')) {
-        await fs.promises.unlink('.env') // Elimina el archivo .env
-        console.log('Archivo .env eliminado correctamente.')
-      }
-    } catch (error) {
-      console.error('Error al eliminar el archivo .env:', error.message)
-    }
-  }
 }
