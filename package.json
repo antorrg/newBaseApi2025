@@ -1,0 +1,29 @@
+{
+  "name": "newbaseapi2025",
+  "version": "1.0.0",
+  "description": "Api rest de usos multiples para base de todos mis proyectos personales",
+  "type": "module",
+  "main": "index.js",
+  "directories": {
+    "src": "src",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "Api",
+    "REST",
+    "express.js",
+    "prisma"
+  ],
+  "author": "antorrg",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^6.5.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "morgan": "^1.10.0"
+  }
+}
