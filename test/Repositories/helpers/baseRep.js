@@ -1,74 +1,53 @@
 export const createData = {
-  name: 'landing1',
   title: 'Titulo de la landing',
-  description: 'Descripcion de la landing',
-  picture: 'https://picture.com.ar',
-  metaTitle: 'titulo para el seo',
-  metaDescription: 'descripcion para el seo',
-  metaKeywords: 'palabras clave',
-  logo: 'https://metalogo.com.ar'
+  infoHeader: 'titulo para el seo',
+  infoBody: 'Descripcion de la landing',
+  picture: 'https://picture.com.ar'
 }
 export const createSecondData = {
-  name: 'landing2',
-  title: 'Titulo de la landing',
-  description: 'Descripcion de la landing',
-  picture: 'https://picture.com.ar',
-  metaTitle: 'titulo para el seo',
-  metaDescription: 'descripcion para el seo',
-  metaKeywords: 'palabras clave',
-  logo: 'https://metalogo.com.ar',
-  enable: false
+  title: 'Titulo de la landing2',
+  infoHeader: 'titulo para el seo',
+  infoBody: 'Descripcion de la landing',
+  picture: 'https://picture.com.ar'
 }
 
 export const cleanData = (data) => {
   return {
     id: data.id,
-    name: data.name,
     title: data.title,
-    description: data.description,
+    infoHeader: data.infoHeader,
+    infoBody: data.infoBody,
     picture: data.picture,
-    metaTitle: data.metaTitle,
-    metaDescription: data.metaDescription,
-    metaKeywords: data.metaKeywords,
-    logo: data.logo,
-    enable: data.enable
+    enable: data.enable,
+    deletedAt: data.deletedAt
   }
 }
 export const responseData = {
   id: 1,
-  name: 'landing1',
   title: 'Titulo de la landing',
-  description: 'Descripcion de la landing',
+  infoHeader: 'titulo para el seo',
+  infoBody: 'Descripcion de la landing',
   picture: 'https://picture.com.ar',
-  metaTitle: 'titulo para el seo',
-  metaDescription: 'descripcion para el seo',
-  metaKeywords: 'palabras clave',
-  logo: 'https://metalogo.com.ar',
-  enable: true
+  enable: true,
+  deletedAt: null
 }
 export const responseData2 = [{
   id: 1,
-  name: 'landing1',
   title: 'Titulo de la landing',
-  description: 'Descripcion de la landing',
+  infoHeader: 'titulo para el seo',
+  infoBody: 'Descripcion de la landing',
   picture: 'https://picture.com.ar',
-  metaTitle: 'titulo para el seo',
-  metaDescription: 'descripcion para el seo',
-  metaKeywords: 'palabras clave',
-  logo: 'https://metalogo.com.ar',
-  enable: true
+  enable: true,
+  deletedAt: null
 },
 {
   id: 2,
-  name: 'landing2',
-  title: 'Titulo de la landing',
-  description: 'Descripcion de la landing',
+  title: 'Titulo de la landing2',
+  infoHeader: 'titulo para el seo',
+  infoBody: 'Descripcion de la landing',
   picture: 'https://picture.com.ar',
-  metaTitle: 'titulo para el seo',
-  metaDescription: 'descripcion para el seo',
-  metaKeywords: 'palabras clave',
-  logo: 'https://metalogo.com.ar',
-  enable: false
+  enable: true,
+  deletedAt: null
 }]
 export const responseData3 = {
   id: 2,
@@ -95,26 +74,20 @@ export const responseDataImg = {
   enable: true
 }
 export const responseUpdData = {
-  id: 2,
-  name: 'landing3',
-  title: 'Titulo de la landing',
-  description: 'Descripcion de la landing',
+  id: 1,
+  title: 'landing3',
+  infoHeader: 'titulo para el seo',
+  infoBody: 'Descripcion de la landing',
   picture: 'https://picture.com.ar',
-  metaTitle: 'titulo para el seo',
-  metaDescription: 'descripcion para el seo',
-  metaKeywords: 'palabras clave',
-  logo: 'https://metalogo.com.ar',
-  enable: true
+  enable: true,
+  deletedAt: null
 }
 export const dataEmpty = {
-  id: false,
-  name: 'landing1',
+  id: 1,
   title: 'Titulo de la landing',
-  description: 'Descripcion de la landing',
+  infoHeader: 'titulo para el seo',
+  infoBody: 'Descripcion de la landing',
   picture: 'https://picture.com.ar',
-  metaTitle: 'titulo para el seo',
-  metaDescription: 'descripcion para el seo',
-  metaKeywords: 'palabras clave',
-  logo: 'https://metalogo.com.ar',
-  enable: true
+  enable: true,
+  deletedAt: null
 }

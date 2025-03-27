@@ -11,7 +11,33 @@ const genericRepository = (model, model2 = null) => {
     async getAll () {
       return await model.findMany()
     },
+    async getPages ({ search, filters = {}, sortBy = 'id', order = 'desc', page = 1, limit = 10 }) {
+      const offset = (page - 1) * limit
 
+      // Construimos el filtro de búsqueda
+      const searchFilter = search ? { name: { contains: search, mode: 'insensitive' } } : {}
+
+      // Combinamos filtros personalizados con búsqueda
+      const where = { ...searchFilter, ...filters }
+
+      // Ejecutamos la consulta dinámica
+      const data = await prisma[model].findMany({
+        where,
+        orderBy: { [sortBy]: order },
+        skip: offset,
+        take: limit
+      })
+
+      // Contamos el total de registros
+      const total = await prisma[model].count({ where })
+
+      return {
+        total,
+        page,
+        totalPages: Math.ceil(total / limit),
+        data
+      }
+    },
     async getFilters (queryObject) {
       const { field, value } = queryObject
       return await model.findMany({

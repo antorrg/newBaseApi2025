@@ -12,3 +12,168 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Videogame {
+  id           String    @id @default(uuid())
+  name         String    @unique
+  description  String?
+  image        String
+  released     DateTime
+  price        Decimal
+  physicalGame Boolean
+  stock        Int?
+  enable       Boolean   @default(true)
+  deletedAt    DateTime?
+  genres       Genre[]   @relation("VideogameGenres") 
+  platforms    Platform[] @relation("VideogamePlatform")
+  
+}
+
+model Genre {
+  id        Int       @id @default(autoincrement())
+  name      String
+  deletedAt DateTime?
+  videogames Videogame[] @relation("VideogameGenres") 
+}
+
+
+model Platform {
+  id        Int       @id @default(autoincrement())
+  mame      String
+  deletedAt DateTime?
+  videogames  Videogame[] @relation("VideogamePlatform")
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String
+  nickname  String
+  givenName String
+  picture   String
+  sub       String?
+  role      Int
+  country   String
+  enable    Boolean   @default(true)
+  deletedAt DateTime?
+  favorites Favorite[] @relation("UserFav")
+}
+
+model Favorite {
+  id      Int    @id @default(autoincrement()) // Prisma usa autoincrement() para claves primarias numéricas
+  name    String @unique
+  gender  Gender @default(UNKNOWN)
+  status  Status @default(UNKNOWN)
+  species String
+  image   String
+  users   User[]  @relation("UserFav")
+}
+
+enum Gender {
+  FEMALE
+  MALE
+  GENDERLESS
+  UNKNOWN
+}
+
+enum Status {
+  ALIVE
+  DEAD
+  UNKNOWN
+  UNDEFINED
+}
+
+model Cart {
+  id       Int    @id @default(autoincrement())
+  userId   String
+  gameId   String
+  quantity Int
+}
+
+model PurchaseOrder {
+  id            Int    @id @default(autoincrement())
+  userId        String
+  totalCost     Int
+  status        String
+  statusDetail  String
+  preferenceId  String
+  transactionId String
+}
+
+model PurchaseOrderItem {
+  id         Int     @id @default(autoincrement())
+  itemId     String
+  quantity   Int
+  unitPrice  Int
+  currencyId String
+  orderId    String
+  userId     String
+  isRated    Boolean
+  status     String
+}
+
+model Rating {
+  id      Int    @id @default(autoincrement())
+  itemId  String
+  comment String
+  score   Int
+  userId  String
+}
+
+//Segunda seccion api: 
+model Owner {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String
+  nickname  String
+  givenName String
+  picture   String
+  role      Int
+  country   String
+  enable    Boolean   @default(true)
+  deletedAt DateTime?
+}
+
+model Landing {
+  id         Int       @id @default(autoincrement())
+  title      String    @unique
+  infoHeader String
+  infoBody   String
+  picture    String
+  enable     Boolean   @default(true)
+  deletedAt  DateTime?
+}
+
+model Product {
+  id         Int       @id @default(autoincrement())
+  title      String    @unique
+  infoHeader String
+  infoBody   String
+  logo       String
+  picture    String
+  url        String
+  enable     Boolean   @default(true)
+  deletedAt  DateTime?
+  items      Item[]   // Relación uno a muchos con Item
+}
+
+model Item {
+  id        Int       @id @default(autoincrement())
+  text      String
+  img       String
+  enable    Boolean   @default(true)
+  deletedAt DateTime?
+  productId Int     // Clave foránea para la relación con Product
+
+  product   Product @relation(fields: [productId], references: [id])  // Relación muchos a uno con Product
+}
+
+model Media {
+  id          Int       @id @default(autoincrement())
+  type        String    @unique
+  title       String
+  description String
+  media       String
+  enable      Boolean   @default(true)
+  deletedAt   DateTime?
+}

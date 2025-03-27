@@ -20,5 +20,5 @@ fs.writeFileSync(
 export default {
   Port: PORT,
   DatabaseUrl: DATABASE_URL,
-  Status,
+  Status
 }
