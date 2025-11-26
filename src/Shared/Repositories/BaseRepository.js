@@ -1,6 +1,6 @@
-import eh from '../Configs/errorHandlers.js'
+import { throwError, processError } from '../../Configs/errorHandlers.js'
 
-const throwError = eh.throwError
+
 // Esto es lo mas parecido a una clase abstracta, no se puede instanciar, solo se puede extender.
 
 class BaseRepository {
@@ -28,11 +28,12 @@ class BaseRepository {
 
       return newRecord
     } catch (error) {
-      throw error
+      processError(error, `${this.Model}: Repository create`)
     }
   }
 
   async getAll (searchField = '', search = null, filters = {}, sortBy = 'id', order = 'desc', page = 1, limit = 10) {
+    try{
     const offset = (page - 1) * limit
     // Construimos el filtro de búsqueda
     const searchFilter = search ? { [searchField]: { contains: search, mode: 'insensitive' } } : {}
@@ -61,6 +62,9 @@ class BaseRepository {
       },
       data: existingRecords
     }
+  }catch(error){
+    processError(error, `${this.Model}: Repository getAll`)
+  }
   }
 
   async getOne (data, uniqueField) {
@@ -75,7 +79,7 @@ class BaseRepository {
       }
       return existingRecord
     } catch (error) {
-      throw error
+       processError(error, `${this.Model}: Repository getOne`)
     }
   };
 
@@ -87,11 +91,12 @@ class BaseRepository {
       }
       return existingRecord
     } catch (error) {
-      throw error
+       processError(error, `${this.Model}: Repository getById`)
     }
   };
 
   async update (id, data) {
+    try{
     const dataFound = await this.Model.findUnique({ where: { id } })
     if (!dataFound) {
       throwError(`${this.Model.name} not found`, 404)
@@ -101,9 +106,13 @@ class BaseRepository {
       data
     })
     return upData
+    } catch (error) {
+       processError(error, `${this.Model}: Repository update`)
+    }
   };
 
   async delete (id) {
+    try{
     const dataFound = await this.Model.findUnique({ where: { id } })
     if (!dataFound) {
       throwError(`${this.Model} not found`, 404)
@@ -112,6 +121,9 @@ class BaseRepository {
       where: { id: parseInt(id) }
     })
     return `${this.Model.name} deleted successfully`
+    } catch (error) {
+       processError(error, `${this.Model}: Repository delete`)
+    }
   };
 }
 

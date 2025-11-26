@@ -1,9 +1,12 @@
 import env from '../src/Configs/envConfig.js'
-import { prisma } from '../src/Configs/database.js'
+import { closeDatabase, prisma, startApp } from '../src/Configs/database.js'
 
 describe('Iniciando tests, probando variables de entorno del archivo "envConfig.js" y existencia de tablas en DB.', () => {
-  afterAll(() => {
-    console.log('Finalizando todas las pruebas...')
+  beforeAll(async()=>{
+    await startApp(true)
+  })
+  afterAll(async() => {
+    await closeDatabase()
   })
 
   it('Deberia retornar el estado y la variable de base de datos correcta', () => {
@@ -27,7 +30,8 @@ describe('Iniciando tests, probando variables de entorno del archivo "envConfig.
       prisma.landing,
       prisma.product,
       prisma.item,
-      prisma.media
+      prisma.media,
+      prisma.log
     ]
     for (const model of models) {
       const records = await model.findMany()

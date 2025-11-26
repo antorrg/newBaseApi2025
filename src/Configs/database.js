@@ -1,44 +1,46 @@
 import { PrismaClient } from '@prisma/client'
+import { execSync } from 'child_process'
 import env from './envConfig.js'
+import logger from './logger.js'
 
-import fs from 'fs'
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: env.DatabaseUrl, // conexión a la DB según el entorno
+    },
+  },
+})
 
-const startApp = async () => {
+const startApp = async (reset = false) => {
   try {
     await prisma.$connect()
-    console.log('Conexión a Postgres establecida con Prisma.')
+
+    if (reset === true) {
+      // db push usa la URL definida en prisma.config.js (no en schema)
+      execSync('npx prisma db push --force-reset', { stdio: 'inherit' })
+      logger.info('🧪 Reseteando y conectando Prisma')
+    } else {
+      logger.info('🧪 Conexión a Postgres establecida con Prisma.')
+    }
   } catch (error) {
-    console.error('Error al conectar con Prisma:', error.message)
-    process.exit(1) // Salida con error
+    logger.error('❌ Error al conectar con Prisma:', error.message)
   }
 }
 
-// Función para cerrar conexión y eliminar archivo .env
-const gracefulShutdown = async () => {
+const closeDatabase = async () => {
   try {
+    // Delay para esperar operaciones pendientes (tests)
+    await new Promise(res => setTimeout(res, 20))
     await prisma.$disconnect()
-    console.log('Desconexión de Prisma completa.')
-
-    // Limpiar el archivo .env generado
-    if (fs.existsSync('.env')) {
-      await env.cleanEnvFile()
-      console.log('Archivo .env eliminado correctamente.')
-    }
-    setTimeout(() => {
-      console.log('Cerrando proceso.')
-      process.exit(0) // Salida limpia
-    }, 3000)
-    // process.exit(0); // Salida limpia
+    logger.info('🛑 Cerrando conexión con la base de datos.')
   } catch (error) {
-    console.error('Error al desconectar Prisma:', error.message)
-    process.exit(1) // Salida con error
+    logger.error('❌ Error al cerrar la base de datos:', error)
   }
 }
 
 export {
   prisma,
   startApp,
-  gracefulShutdown
+  closeDatabase
 }

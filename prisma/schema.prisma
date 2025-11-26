@@ -177,3 +177,17 @@ model Media {
   enable      Boolean   @default(true)
   deletedAt   DateTime?
 }
+model Log {
+  id          Int @id @default(autoincrement())
+  levelName   String
+  levelCode   String
+  message     String
+  type        String
+  status      Int
+  stack       String
+  contexts    String[]
+  pid         Int
+  time        BigInt
+  hostname    String
+  keep        Boolean
+}
