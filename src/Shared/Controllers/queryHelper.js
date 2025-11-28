@@ -1,4 +1,4 @@
-// const {searchField = '', search = null, filters = {}, sortBy = 'id', order = 'desc', page = 1, limit = 10
+// const {searchField = '', search = null, filters = {}, sortBy = 'id', order = 'DESC', page = 1, limit = 10
 export function queryHelper (queries) {
   const { page, limit, orderBy, order, searchField, search } = queries
   // Este es un ejemplo generico a fin de levantar la app.

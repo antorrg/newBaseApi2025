@@ -1,46 +1,69 @@
-import { PrismaClient } from '@prisma/client'
-import { execSync } from 'child_process'
-import env from './envConfig.js'
+import { Sequelize } from 'sequelize'
+import models from '../../models/index.js'
 import logger from './logger.js'
+import env from './envConfig.js'
 
-
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: env.DatabaseUrl, // conexión a la DB según el entorno
-    },
-  },
+const sequelize = new Sequelize(env.DatabaseUrl, {
+  dialect: 'postgres',
+  logging: false,
+  native: false
 })
 
-const startApp = async (reset = false) => {
-  try {
-    await prisma.$connect()
+Object.values(models).forEach((model) => model(sequelize))
 
-    if (reset === true) {
-      // db push usa la URL definida en prisma.config.js (no en schema)
-      execSync('npx prisma db push --force-reset', { stdio: 'inherit' })
-      logger.info('🧪 Reseteando y conectando Prisma')
-    } else {
-      logger.info('🧪 Conexión a Postgres establecida con Prisma.')
+const {
+  User,
+  RefreshToken,
+  Log,
+  Videogame,
+  Genre,
+  Platform,
+  PurchaseOrder,
+  PurchaseOrderItems,
+  Rating,
+  Cart,
+  Favorite
+} = sequelize.models
+
+// Relations here:
+
+// -------------------------------------------------------------
+const startApp = async (synced = false, forced = false) => {
+  try {
+    await sequelize.authenticate()
+    if (synced === true) {
+      await sequelize.sync({ force: forced })
+      logger.info(`✔️  Database synced successfully!!\n Force: ${forced}`)
     }
+    logger.info('🟢 Connection to Postgres established with Sequelize')
   } catch (error) {
-    logger.error('❌ Error al conectar con Prisma:', error.message)
+    logger.fatal('❌ Error connecting to Sequelize:', error.message)
   }
 }
 
 const closeDatabase = async () => {
   try {
-    // Delay para esperar operaciones pendientes (tests)
     await new Promise(res => setTimeout(res, 20))
-    await prisma.$disconnect()
-    logger.info('🛑 Cerrando conexión con la base de datos.')
+    await sequelize.close()
+    logger.info('🛑 Closing connection to database.')
   } catch (error) {
-    logger.error('❌ Error al cerrar la base de datos:', error)
+    logger.error('❌ Error closing database:', error)
   }
 }
 
 export {
-  prisma,
+  User,
+  RefreshToken,
+  Log,
+  Videogame,
+  Genre,
+  Platform,
+  PurchaseOrder,
+  PurchaseOrderItems,
+  Rating,
+  Cart,
+  Favorite,
+  sequelize,
   startApp,
   closeDatabase
 }

@@ -1,5 +1,4 @@
 import dotenv from 'dotenv'
-import fs from 'fs'
 
 const configEnv = {
   development: '.env.development',
@@ -9,16 +8,14 @@ const configEnv = {
 const envFile = configEnv[process.env.NODE_ENV] || '.env.development'
 dotenv.config({ path: envFile })
 
-const Status = Object.keys(configEnv).find(key => configEnv[key] === envFile) || 'production'
-const { PORT, DATABASE_URL } = process.env
-// Generar el archivo .env dinámico para Prisma
-fs.writeFileSync(
-  '.env',
-    `PORT=${PORT}\nDATABASE_URL=${DATABASE_URL}`
-)
+const { PORT, DATABASE_URL, JWT_EXPIRES_IN, JWT_SECRET, USER_IMG } = process.env
 
 export default {
   Port: PORT,
   DatabaseUrl: DATABASE_URL,
-  Status
+  Status: process.env.NODE_ENV,
+  ExpiresIn: JWT_EXPIRES_IN,
+  ExpiresAt: JWT_REFRESH_EXPIRES_AT,
+  Secret: JWT_SECRET || 'test_secret',
+  UserImg: USER_IMG
 }

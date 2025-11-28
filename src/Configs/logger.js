@@ -1,7 +1,8 @@
 import pino from 'pino'
 import envConfig from './envConfig.js'
 import fileTransport from './Logger/transports/fileTansport.js'
-import { dbWritableStream } from './Logger/transports/dbTransport.js'
+import { dbWritableStream } from './Logger/transports/dbTansport.js'
+
 let logger
 
 switch (envConfig.Status) {
@@ -20,7 +21,7 @@ switch (envConfig.Status) {
     })
     break
 
-  case 'development': //dev
+  case 'development': // dev
     // Guardar logs en archivo
     logger = pino({
       level: 'info',
