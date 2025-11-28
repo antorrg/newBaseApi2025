@@ -1,7 +1,8 @@
 import { auth } from 'express-oauth2-jwt-bearer'
+import envConfig from '../../Configs/envConfig.js'
 
 export const jwtAuth0Check = auth({
-  audience: 'apiAuth0',
-  issuerBaseURL: 'https://dev-mg7v1nvcxu1guo4c.us.auth0.com/',
+  audience: envConfig.Auth0Audience,
+  issuerBaseURL: envConfig.Auth0IssuerBaseUrl,
   tokenSigningAlg: 'RS256'
 })
