@@ -21,8 +21,8 @@ export class BaseController {
   getWithPagination = async (req, res) => {
     const response = await this.service.getWithPagination(req.context.query)
     return BaseController.responder(res, 200, true, response.message, {
-      info: response.results.info,
-      data: response.results.data
+      info: response.data.info,
+      data: response.data.results
     })
   }
 
@@ -36,8 +36,8 @@ export class BaseController {
     const isAdmin = true
     const response = await this.service.getWithPagination(req.context.query, isAdmin)
     return BaseController.responder(res, 200, true, response.message, {
-      info: response.results.info,
-      data: response.results.data
+      info: response.data.info,
+      data: response.data.results
     })
   }
 

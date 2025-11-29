@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import BaseRepository from '../../../src/Shared/Repositories/BaseRepository.js'
+import { BaseRepository } from '../../../src/Shared/Repositories/BaseRepository.js'
 import { User, startApp, closeDatabase } from '../../../src/Configs/database.js'
 import logger from '../../../src/Configs/logger.js'
 import * as info from './helperTest.help.js'
@@ -81,7 +81,7 @@ describe('BaseRepository tests (abstract class)', () => {
       })
       it('"getWithPagination" should return an array of elements with pagination info.', async () => {
         // const {searchField = '', search = null, filters = {}, sortBy = 'id', order = 'desc', page = 1, limit = 10
-        const queryObject = { searchField: '', search: null, sortBy: 'id', order: 'desc', page: 1, limit: 10 }
+        const queryObject = { searchField: '', search: null, sortBy: 'id', order: 'DESC', page: 1, limit: 10 }
         const isAdmin = false
         const response = await tests.getWithPagination(queryObject, isAdmin)
         expect(response.results).toEqual([{

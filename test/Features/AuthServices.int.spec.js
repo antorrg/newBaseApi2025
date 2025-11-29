@@ -13,7 +13,7 @@ describe('AuthFlow', () => {
     beforeAll(async () => {
           let userCredentials = {
         email: `test_user@example.com`,
-        password: await bcrypt.hash('password123', 12),
+        password: await bcrypt.hash('Password123', 12),
         picture: 'http://example.com/pic.jpg'
     }
        await startApp(true, true)
@@ -27,7 +27,7 @@ describe('AuthFlow', () => {
     })
     describe('Login method:', () => {
     it('should login and return access token and refresh token cookie', async () => {
-        const data = {email: `test_user@example.com`, password: 'password123'}
+        const data = {email: `test_user@example.com`, password: 'Password123'}
         const res = await agent
             .post('/api/v1/auth/login')
             .send(data)
@@ -70,7 +70,7 @@ describe('AuthFlow', () => {
     })})
     describe('Logout method:', () => {
       it('should revoke the active refresh token ', async() => {
-        const data = {email: `test_user@example.com`, password: 'password123'}
+        const data = {email: `test_user@example.com`, password: 'Password123'}
         const newSession = await agent
             .post('/api/v1/auth/login')
             .send(data)
@@ -82,7 +82,5 @@ describe('AuthFlow', () => {
         expect(res.status).toBe(200)
         expect(res.body.message).toBe('AUTH_LOGOUT_SUCCESS')
       })
-      
     })
-    
 })

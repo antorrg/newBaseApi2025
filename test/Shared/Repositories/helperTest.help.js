@@ -1,3 +1,4 @@
+import { expect } from 'vitest'
 export const createData = {
   email: 'usuario@gmail.com',
   password: 'L1234567',
@@ -41,19 +42,5 @@ export function cleanData (d) {
     given_name: d.given_name,
     enabled: d.enabled,
     createdAt: d.createdAt.toISOString()
-  }
-}
-function scope (role) {
-  switch (role) {
-    case 1:
-      return 'User'
-    case 2:
-      return 'Moderator'
-    case 3:
-      return 'Admin'
-    case 9:
-      return 'SuperAdmin'
-    default:
-      return 'User'
   }
 }

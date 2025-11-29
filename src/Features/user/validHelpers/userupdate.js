@@ -1,14 +1,25 @@
-export default {
+export const update = {
   email: {
     type: 'string'
   },
-  password: {
+  nickname: {
     type: 'string'
   },
-  username: {
+  given_name: {
     type: 'string'
   },
   picture: {
+    type: 'string'
+  },
+  country: {
+    type: 'string'
+  },
+  enabled: {
+    type: 'boolean'
+  }
+}
+export const upgrade = {
+  role: {
     type: 'string'
   },
   enabled: {

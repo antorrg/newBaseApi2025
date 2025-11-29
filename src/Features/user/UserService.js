@@ -1,4 +1,4 @@
-import GeneralService from '../../Shared/Services/GeneralService.js'
+import { BaseService } from '../../Shared/Services/BaseService.js'
 
 export class UserService extends GeneralService {
   constructor (Repository, fieldName, uniqueField = '', useImage = false, deleteImages = null) {

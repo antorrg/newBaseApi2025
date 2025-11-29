@@ -21,7 +21,7 @@ export default {
   },
   order: {
     type: 'string',
-    default: 'DESC',
+    default: 'ASC',
     optional: false,
     sanitize: {
       trim: true,
@@ -31,7 +31,7 @@ export default {
   },
   searchField: {
     type: 'string',
-    default: 'id',
+    default: 'email',
     optional: false,
     sanitize: {
       trim: true,
@@ -41,12 +41,9 @@ export default {
   },
   search: {
     type: 'string',
-    default: 'null',
-    optional: false,
+    default: '',
     sanitize: {
-      trim: true,
-      escape: true,
-      lowercase: true
+      trim: true
     }
   }
 }

@@ -8,9 +8,9 @@ export class AuthController extends BaseController {
 
   auth0Login = async (req, res) => {
     const data = req.body
-    const user = req.auth
-    console.log('data', data)
-    console.log('auth:', user)
+    const { user, token, refreshToken } = await this.service.auth0Login(data)
+    res.cookie('refreshToken', refreshToken, REFRESH_COOKIE_OPTIONS)
+    BaseController.responder(res, 200, true, 'AUTH_LOGIN_SUCCESS', { user, token })
   }
 
   login = async (req, res) => {

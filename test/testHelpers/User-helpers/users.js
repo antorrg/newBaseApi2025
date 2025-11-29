@@ -1,63 +1,112 @@
 export const users = [
   {
-    username: 'Bret',
     email: 'Sincere@april.biz',
+    password: 'None',
+    nickname: 'Sincere',
+    given_name: 'Bret',
+    role: 'User',
     picture: 'abs@gmail.com',
-    password: 'L1234567'
+    country: '',
+    email_verify: true,
+    enabled: true
   },
   {
-    username: 'Antonette',
     email: 'Shanna@melissa.tv',
+    password: 'None',
+    nickname: 'Shanna',
+    given_name: 'Antonette',
+    role: 'User',
     picture: 'abs@gmail.com',
-    password: 'L1234567'
+    country: '',
+    email_verify: true,
+    enabled: true
   },
   {
-    username: 'Samantha',
     email: 'Nathan@yesenia.net',
+    password: 'None',
+    nickname: 'Nathan',
+    given_name: 'Samantha',
+    role: 'User',
     picture: 'abs@gmail.com',
-    password: 'L1234567'
+    country: '',
+    email_verify: true,
+    enabled: true
   },
   {
-    username: 'Karianne',
     email: 'Julianne.OConner@kory.org',
+    password: 'None',
+    nickname: 'Julianne.OConner',
+    given_name: 'Karianne',
+    role: 'User',
     picture: 'abs@gmail.com',
-    password: 'L1234567'
+    country: '',
+    email_verify: true,
+    enabled: true
   },
   {
-    username: 'Kamren',
     email: 'Lucio_Hettinger@annie.ca',
+    password: 'None',
+    nickname: 'Lucio_Hettinger',
+    given_name: 'Kamren',
+    role: 'User',
     picture: 'abs@gmail.com',
-    password: 'L1234567'
+    country: '',
+    email_verify: true,
+    enabled: true
   },
   {
-    username: 'Leopoldo_Corkery',
     email: 'Karley_Dach@jasper.info',
+    password: 'None',
+    nickname: 'Karley_Dach',
+    given_name: 'Leopoldo_Corkery',
+    role: 'User',
     picture: 'abs@gmail.com',
-    password: 'L1234567'
+    country: '',
+    email_verify: true,
+    enabled: true
   },
   {
-    username: 'Elwyn.Skiles',
     email: 'Telly.Hoeger@billy.biz',
+    password: 'None',
+    nickname: 'Telly.Hoeger',
+    given_name: 'Elwyn.Skiles',
+    role: 'User',
     picture: 'abs@gmail.com',
-    password: 'L1234567'
+    country: '',
+    email_verify: true,
+    enabled: true
   },
   {
-    username: 'Maxime_Nienow',
     email: 'Sherwood@rosamond.me',
+    password: 'None',
+    nickname: 'Sherwood',
+    given_name: 'Maxime_Nienow',
+    role: 'User',
     picture: 'abs@gmail.com',
-    password: 'L1234567'
+    country: '',
+    email_verify: true,
+    enabled: true
   },
   {
-    username: 'Delphine',
     email: 'Chaim_McDermott@dana.io',
+    password: 'None',
+    nickname: 'Chaim_McDermott',
+    given_name: 'Delphine',
+    role: 'User',
     picture: 'abs@gmail.com',
-    password: 'L1234567'
+    country: '',
+    email_verify: true,
+    enabled: true
   },
   {
-
-    username: 'Moriah.Stanton',
     email: 'Rey.Padberg@karina.biz',
+    password: 'None',
+    nickname: 'Rey.Padberg',
+    given_name: 'Moriah.Stanton',
+    role: 'User',
     picture: 'abs@gmail.com',
-    password: 'L1234567'
+    country: '',
+    email_verify: true,
+    enabled: true
   }
 ]

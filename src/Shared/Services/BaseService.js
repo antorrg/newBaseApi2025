@@ -29,7 +29,7 @@ export class BaseService {
 
   async getAll () {
     try {
-      const response = await this.Repository.getAll(isAdmin)
+      const response = await this.Repository.getAll()
 
       return {
         message: `${this.fieldName}s found successfully`,
@@ -114,8 +114,9 @@ export class BaseService {
       this.useImage ? imageUrl = dataFound.picture : ''
 
       await this.Repository.delete(id)
-
-      await this.handleImageDeletion(imageUrl)
+      if (this.useImage === true) {
+        await this.handleImageDeletion(imageUrl)
+      }
 
       return { message: `${this.fieldName} deleted successfully`, results: `${this.fieldName} deleted: ${dataReg}` }
     } catch (error) {

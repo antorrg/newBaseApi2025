@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import session from 'supertest'
 import app from '../../src/app.js'
+import logger from '../../src/Configs/logger.js'
 import { User, startApp, closeDatabase } from '../../src/Configs/database.js'
 import * as store from '../testHelpers/testStore.help.js'
 import { users } from '../testHelpers/User-helpers/users.js'
@@ -26,11 +27,16 @@ describe('User, Integration test', () => {
       expect(test.body.results).toEqual({
         id: expect.any(String),
         email: 'usuario@gmail.com',
+        nickname: 'usuario',
+        given_name: null,
         role: 'User',
         picture: 'https://picture.com',
-        username: null,
+        country: null,
+        email_verify: false,
         enabled: true,
-        createdAt: expect.any(String)
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String),
+        deletedAt: null
       })
       store.setStringId(test.body.results.id)
     })
@@ -46,19 +52,24 @@ describe('User, Integration test', () => {
         {
           id: expect.any(String),
           email: 'usuario@gmail.com',
+          nickname: 'usuario',
+          given_name: null,
           role: 'User',
           picture: 'https://picture.com',
-          username: null,
+          country: null,
+          email_verify: false,
           enabled: true,
-          createdAt: expect.any(String)
+          createdAt: expect.any(String),
+          updatedAt: expect.any(String),
+          deletedAt: null
         }
       ])
     })
     it('should retrieve an array of users "getWithPagination" by filter', async () => {
       const usersCreated = await User.bulkCreate(users)
-      console.log(usersCreated.length)
+      logger.info(`Users created: ${usersCreated.length}`)
       const response = await agent
-        .get('/api/v1/user/pages?page=1&limit=4&sortBy=email&order=asc&searchField=email&search=Sincere@april.biz')
+        .get('/api/v1/user/pages?page=1&limit=4&searchField=email&search=Sincere@april.biz&sortBy=email&order=asc')
         .expect(200)
       expect(response.body.success).toBe(true)
       expect(response.body.message).toBe('Users found successfully')
@@ -68,11 +79,16 @@ describe('User, Integration test', () => {
         {
           id: expect.any(String),
           email: 'Sincere@april.biz',
+          nickname: 'Sincere',
+          given_name: 'Bret',
           role: 'User',
           picture: 'abs@gmail.com',
-          username: 'Bret',
+          country: '',
+          email_verify: true,
           enabled: true,
-          createdAt: expect.any(String)
+          createdAt: expect.any(String),
+          updatedAt: expect.any(String),
+          deletedAt: null
         }
       ])
     })
@@ -94,11 +110,16 @@ describe('User, Integration test', () => {
       expect(response.body.results).toEqual({
         id: expect.any(String),
         email: 'usuario@gmail.com',
+        nickname: 'usuario',
+        given_name: null,
         role: 'User',
         picture: 'https://picture.com',
-        username: null,
+        country: null,
+        email_verify: false,
         enabled: true,
-        createdAt: expect.any(String)
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String),
+        deletedAt: null
       })
     })
   })
@@ -106,9 +127,10 @@ describe('User, Integration test', () => {
     it('should update an user', async () => {
       const newData = {
         email: 'usuario@gmail.com',
-        password: 'L1234567',
+        nickname: 'usuario',
         picture: 'https://picture.com',
-        username: 'usuario actualizado',
+        given_name: 'usuario actualizado',
+        country: 'nodata',
         enabled: true
       }
       const response = await agent
@@ -120,19 +142,26 @@ describe('User, Integration test', () => {
       expect(response.body.results).toEqual({
         id: expect.any(String),
         email: 'usuario@gmail.com',
+        nickname: 'usuario',
         role: 'User',
         picture: 'https://picture.com',
-        username: 'usuario actualizado',
+        given_name: 'usuario actualizado',
+        country: 'nodata',
         enabled: true,
-        createdAt: expect.any(String)
+        email_verify: false,
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String),
+        deletedAt: null
       })
     })
     it('should throw an error if parameters are incorrect', async () => {
       const newData = {
         email: 'usuario@gmail.com',
+        nickname: 'usuario',
         password: 'L1234567',
         picture: 'https://picture.com',
-        username: 'usuario actualizado',
+        given_name: 'usuario actualizado',
+        country: '',
         enable: true
       }
       const response = await agent

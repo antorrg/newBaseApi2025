@@ -9,7 +9,7 @@ export class UserRepository extends BaseRepository {
 
   async create (data) {
     try {
-      const existingRecord = await this.Model.findOne({ where: data[email] })
+      const existingRecord = await this.Model.findOne({ where: { email: data.email } })
       if (existingRecord) {
         if (existingRecord.sub === null) {
           throwError(`This ${this.Model.name.toLowerCase()} ${uniqueField || 'entry'} already exists`, 400)
@@ -75,4 +75,47 @@ export class UserRepository extends BaseRepository {
       processError(error, 'UserRepository.updatePassword')
     }
   }
+
+  async update (id, data) {
+    let newData
+    try {
+      const dataFound = await this.Model.findByPk(id)
+      if (!dataFound) {
+        throwError(`${this.Model.name} not found`, 404)
+      }
+      if (dataFound.role === 'SuperAdmin') {
+        newData = {
+          ...data,
+          email: dataFound.email,
+          password: dataFound.password,
+          sub: '',
+          role: dataFound.role,
+          enabled: dataFound.enable,
+          deletedAt: null
+        }
+      } else {
+        newData = data
+      }
+      const upData = await dataFound.update(newData)
+      return this.parser(upData)
+    } catch (error) {
+      processError(error, 'BaseRepository.update')
+    }
+  };
+
+  async delete (id) {
+    try {
+      const dataFound = await this.Model.findByPk(id)
+      if (!dataFound) {
+        throwError(`${this.Model} not found`, 404)
+      }
+      if (dataFound.role === 'SuperAdmin') {
+        throwError('A superuser cannot be deleted', 403)
+      }
+      await dataFound.destroy()
+      return `${this.Model.name} deleted successfully`
+    } catch (error) {
+      processError(error, 'BaseRepository.delete')
+    }
+  };
 }
