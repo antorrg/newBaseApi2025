@@ -33,7 +33,11 @@ export const catchController = (controller) => {
 
 export const middError = (message, status) => {
   const error = new Error(message)
-  error.status = status || 500
+  error.status = status || 400
+  if (!Array.isArray(err.contexts)) error.contexts = []
+  // evita duplicados consecutivos
+  const last = error.contexts[error.contexts.length - 1]
+  if (!last || last !== 'Error middleware') err.contexts.push('Error middleware')
   return error
 }
 

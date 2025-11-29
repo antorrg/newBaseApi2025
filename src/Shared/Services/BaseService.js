@@ -97,10 +97,7 @@ export class BaseService {
         await this.handleImageDeletion(imageUrl)
       }
 
-      return {
-        message: `${this.fieldName} updated successfully`,
-        results: upData
-      }
+      return upData
     } catch (error) {
       eh.processError(error, `Update Service: ${this.fieldName} error`)
     }

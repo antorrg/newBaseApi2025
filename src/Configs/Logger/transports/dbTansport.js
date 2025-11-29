@@ -11,7 +11,7 @@ function dbTransport () {
 
       // Filtramos logs de error / fatal (>= 50)
       // console.log(normalizedLog(obj))
-      if (obj?.level >= 50) {
+      if (obj?.level >= 40) {
         await Log.create(normalizedLog(obj))
       }
     } catch (error) {

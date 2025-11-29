@@ -43,13 +43,19 @@ export class UserRepository extends BaseRepository {
     }
   }
 
-  async #verifyUser (data) {
+  async #verifyUser (data, isLogin = true) {
     try {
-      const { email, password } = data
-      const userFound = await this.Model.findOne({ where: { email } })
+      let userFound
+      if (isLogin === true) {
+        // const { email, password } = data
+        userFound = await this.Model.findOne({ where: { email: data.email } })
+      } else {
+        // const {id, email, password} = data
+        userFound = await this.Model.findByPk(data.id)
+      }
       if (!userFound) { throwError('User not found', 404) }
       if (!userFound.enabled) { throwError('User blocked', 400) }
-      const passwordMatch = await bcrypt.compare(password, userFound.password)
+      const passwordMatch = await bcrypt.compare(data.password, userFound.password)
       if (!passwordMatch) { throwError('Invalid password', 400) }
       return this.parser(userFound)
     } catch (error) {
@@ -69,7 +75,8 @@ export class UserRepository extends BaseRepository {
   async updatePassword (data) {
     try {
       const user = await this.#verifyUser(data)
-      await user.update({ password: data.newPassword })
+      const updPass = await bcrypt.hash(data.newPassword, 12)
+      await user.update({ password: updPass })
       return 'User password updated successfully'
     } catch (error) {
       processError(error, 'UserRepository.updatePassword')
@@ -78,6 +85,7 @@ export class UserRepository extends BaseRepository {
 
   async update (id, data) {
     let newData
+    let message = `${this.Model.name} updated successfully`
     try {
       const dataFound = await this.Model.findByPk(id)
       if (!dataFound) {
@@ -93,13 +101,17 @@ export class UserRepository extends BaseRepository {
           enabled: dataFound.enable,
           deletedAt: null
         }
+        message = `${this.Model.name} updated only allowed fields (User Root)`
       } else {
         newData = data
       }
       const upData = await dataFound.update(newData)
-      return this.parser(upData)
+      return {
+        message,
+        results: this.parser(upData)
+      }
     } catch (error) {
-      processError(error, 'BaseRepository.update')
+      processError(error, 'UserRepository.update')
     }
   };
 
@@ -110,12 +122,12 @@ export class UserRepository extends BaseRepository {
         throwError(`${this.Model} not found`, 404)
       }
       if (dataFound.role === 'SuperAdmin') {
-        throwError('A superuser cannot be deleted', 403)
+        throwError('An User Root cannot be deleted', 403)
       }
       await dataFound.destroy()
       return `${this.Model.name} deleted successfully`
     } catch (error) {
-      processError(error, 'BaseRepository.delete')
+      processError(error, 'UserRepository.delete')
     }
   };
 }

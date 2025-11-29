@@ -111,7 +111,10 @@ export class BaseRepository {
         throwError(`${this.Model.name} not found`, 404)
       }
       const upData = await dataFound.update(data)
-      return this.parser(upData)
+      return {
+        message: `${this.Model.name} updated successfully`,
+        results: this.parser(upData)
+      }
     } catch (error) {
       processError(error, 'BaseRepository.update')
     }

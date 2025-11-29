@@ -26,3 +26,11 @@ export const upgrade = {
     type: 'boolean'
   }
 }
+export const updPassword = {
+  password: {
+    type: 'string'
+  },
+  newPassword: {
+    type: 'string'
+  }
+}
